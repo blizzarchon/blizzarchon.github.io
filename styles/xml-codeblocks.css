@@ -1,0 +1,36 @@
+pre code.hljs {
+	display: block;
+	overflow-x: auto;
+	padding: 1em;
+}
+code.hljs {
+	padding: 3px 5px;
+}
+/* code background and at least tag value */
+.hljs {
+	background: #1F140E;
+	color: #E7C387;
+}
+/* tag brackets */
+.hljs-tag {
+	color: #E7C387;
+}
+/* tag name */
+.hljs-name {
+	color: #6cc1f2;
+}
+/* attribute value */
+.hljs-string {
+	color: #C15239;
+}
+/* attribute key */
+.hljs-attr {
+	color: #7cc115;
+}
+/* comment */
+.hljs-comment {
+	color: #b18eb1;
+}
+.hljs-ln-numbers {
+	border-right: 50px solid #1F140E;
+}

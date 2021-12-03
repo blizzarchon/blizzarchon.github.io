@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Complete guide to using advanced Slipstream tags when making FTL mods.">
+	<title>Guide to Slipstream Tags</title>
+
+	<link rel="stylesheet" href="../styles/xml-codeblocks.css">
+	<link rel="stylesheet" href="../styles/main.css">
+	<script src="../scripts/highlight.min.js"></script>
+	<script src="../scripts/highlightjs-line-numbers.min.js"></script>
+	<script>
+		hljs.initHighlightingOnLoad();
+		hljs.initLineNumbersOnLoad();
+	</script>
+</head>
+<body class="container">
+	<nav>
+		<p><a href="../index.html">Homepage</a> &gt; Slipstream Tags Deep Dive</p>
+	</nav>
+	<header>
+		<h1>Deep dive into advanced Slipstream tags</h1>
+	</header>
+
+	<section>
+		<h2 id="preface">Preface</h2>
+		<p>The modding tool described herein is only useful in the context of the data files, so if you are unfamiliar with making changes to data files it will be harder to understand the usage of this tool.</p>
+
+		<p class="indent">If you <em>are</em> unfamiliar, to get your bearings, I encourage you to look through the game files, which you can do from <a href="https://www.subsetgames.com/forum/viewtopic.php?t=17102">Slipstream Mod Manager</a> via <strong>File &rarr; Extract Dats...</strong> Also see a modding tutorial about data files such as <a href="https://docs.google.com/document/d/1MZ-LbQdQ9qG2eNDbAVk6rfabbKJi4_fAV-ARA6IHw2M">this one</a> (see parts 1 and 5).</p>
+		
+		<p>What I'm about to explain is listed in the readme_modders.txt file which can be found wherever you installed Slipstream, under <strong>Advanced XML</strong>, however, there aren't any usage examples which is one of the things I will remedy in this guide. You will not need to have read that section in order to understand this; I will be explaining it all here.</p>
+	</section>
+
+	<section>
+		<h2 id="motivations">Motivations</h2>
+		<p></p>
+
+		<p>The main idea behind Slipstream tags is to modify specific segments of FTL code and change only those segments.</p>
+	
+		
+	</section>
+<section>
+	<h2>Code Test</h2>
+	<pre>
+		<code>
+&lt;mod:findLike type="foo"&gt;
+	&lt;mod:setValue&gt;foobar&lt;/mod:setValue&gt;
+&lt;/mod:findLike&gt;
+&lt;!-- here I am --&gt;
+		</code>
+	</pre>
+</section>
+
+<script src="../scripts/trim-codeblocks.js"></script> 
+</body>
+</html>

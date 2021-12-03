@@ -1,0 +1,30 @@
+/*@font-face {
+	font-family: myfont;
+	src: url('JustinFont12Bold.ttf');
+}*/
+body {
+	background-color: #6edaef;
+	font-family: "Trebuchet MS";
+	padding-right: 100px;
+	padding-left: 100px;
+	/*color: #331a00;*/
+}
+header, h2 {
+	font-family: Arial;
+}
+p.indent {
+	padding-left: 25px;
+}
+nav {
+	border-bottom: 1px solid black;
+}
+pre {
+	float: left;
+}
+pre > code {
+	font-family: "Consolas", "Courier";
+}
+
+/*hr {
+	border-top: 3px solid black;
+}*/
