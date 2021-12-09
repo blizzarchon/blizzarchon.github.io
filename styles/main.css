@@ -24,7 +24,7 @@ p.indent {
 	border-bottom: 1px solid black;
 }
 pre {
-	float: left;
+	display: flex;
 	white-space: pre-wrap;
 	tab-size: 4;
 	margin-top: 0px;
