@@ -31,34 +31,57 @@
 			Deep dive into advanced Slipstream tags
 		</h1>
 	</header>
-	<section>
-		<h2 id="preface">
+	<section id="preface">
+		<h2>
 			Preface
 		</h2>
 		<p>
-			The modding tool described herein is only useful in the context of the data files, so if you are unfamiliar with making changes to data files it will be harder to understand the usage of this tool.
+			The modding tool is meant for use with FTL data files. If you are unfamiliar with making changes to FTL data files it will be harder to understand the usage of this tool.
 		</p>
 		<p class="indent">
-			If you <em>are</em> unfamiliar, to get your bearings, I encourage you to look through the game files, which you can do from <a href="https://www.subsetgames.com/forum/viewtopic.php?t=17102">Slipstream Mod Manager</a> via <strong>File &rarr; Extract Dats...</strong> Also see a modding tutorial about data files such as <a href="https://docs.google.com/document/d/1MZ-LbQdQ9qG2eNDbAVk6rfabbKJi4_fAV-ARA6IHw2M">this one</a> (see parts 1 and 5).
+			If you need some bearings, I encourage you to look through the game files, which you can do from <a href="https://www.subsetgames.com/forum/viewtopic.php?t=17102">Slipstream Mod Manager</a> via <strong>File &rarr; Extract Dats...</strong>
+			<br>
+			Also see a modding tutorial about data files such as <a href="https://docs.google.com/document/d/1MZ-LbQdQ9qG2eNDbAVk6rfabbKJi4_fAV-ARA6IHw2M">this one</a> (see parts 1 and 5).
 		</p>
 		<p>
-			What I'm about to explain is listed in the readme_modders.txt file which can be found wherever you installed Slipstream, under <strong>Advanced XML</strong>, however, there aren't any usage examples which is one of the things I will remedy in this guide. You will not need to have read that section in order to understand this; I will be explaining it all here.
+			Just want to mention that I used the <strong>Advanced XML</strong> section of the readme_modders.txt in Slipstream's directory as the base for this guide, since it does go over the syntax. It's quite dry though as it doesn't have any examples, which is one of the reasons I made this guide. I'll be going it over from scratch so don't worry about reading it.
 		</p>
 	</section>
-	<section>
-		<h2 id="motivations">
+	<section id="motivations">
+		<h2>
 			Motivations
 		</h2>
+		<h3>Compatibility</h3>
 		<p>
-			The main idea behind Slipstream tags is to modify specific segments of FTL code and change only those segments.
+			So you've got a weapon mod. It adds a whole bunch of weapons, and as is usually the case, you want to add a bunch of new blue options to give the weapons interesting event applications. The easiest thing to do is create new versions of events and add some blue options. This is fine if you plan on only using this mod, but the problem with replacing events like this is that it doesn't scale well &rarr; you run into some problems when you think about compatibility.
+		</p>
+		<p>
+			The first order of compatibility comes from the source. Now if you're working with vanilla events, this isn't something to worry about, since vanilla is content-complete. If you're working with an overhaul or overhaul addon or something like that, where the events could get updates in future versions, then you might get problems.
+		</p>
+		<p class="indent">
+			Think about it like this. If you replace the original event, and then the original event gets an update, and your mod is actively preventing a feature update!
+		</p>
+		<p>
+			The second order of compatibility to think about comes from fellow addons. If we both go about this same 'replace the event' method, we may potentially overwrite another mod's changes and then only one of our mods is going to add blue options...
+		</p>
+		<hr>
+		<p>
+			What if instead of replacing the events, we only did the adding of new options? Then we could have mods resilient to update changes and at the same time be compatible with other addons. We can do just that with Slipstream tags.
+		</p>
+		<h3>Possibilities</h3>
+		<p>
+			Slipstream tags can certainly make things less tedious, and tone down how much code is written, while at the same time being more compatible. But what if I told you there are things you can do with them that are just not possible otherwise? Think about this,
+		</p>
+		<p>
+			So, I'm tired of fire beams not burning everything. I want fire beams to burn every single tile I strike with them. Making a universal thing like this is just not possible with conventional modding. To do it you'd have to find every single mod with a fire beam and create a new one with their fireChance to 10, even people's personal mods, mods with the same name for fire beam but different effects. So yeah, impossible. But this is something we can <em>actually</em> do with Slipstream tags. More on this later.
 		</p>
 	</section>
-	<section>
-		<h2 id="terminology">
+	<section id="terminology">
+		<h2>
 			Terminology
 		</h2>
 		<p>
-			It's important to define some terms to make sure we're all on the same page here. Take a look at this event:
+			So you've seen some of the reasons we'd want to use the tags. But before jumping in, it's important we define some terms to make sure we're all on the same page here. I'll be referencing these keywords. Take a look at this event:
 		</p>
 		<pre>
 			<code>
@@ -72,7 +95,7 @@
 	&lt;/choice&gt;
 &lt;/event&gt;
 			</code>
-		</pre>		
+		</pre>
 		<ul>
 			<li><strong>Tag</strong>
 				<p>
