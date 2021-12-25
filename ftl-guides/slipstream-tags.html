@@ -6,6 +6,7 @@
 	<meta name="description" content="Complete guide to using advanced Slipstream tags when making FTL mods.">
 	<title>Guide to Slipstream Tags</title>
 
+	<!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous"> -->
 	<link rel="stylesheet" href="../styles/xml-codeblocks.css">
 	<link rel="stylesheet" href="../styles/main.css">
 	<script src="../scripts/highlight.min.js"></script>
@@ -15,7 +16,7 @@
 		hljs.initLineNumbersOnLoad();
 	</script>
 </head>
-<body class="container">
+<body>
 	<nav class="home">
 		<p>
 			<a href="../index.html">Homepage</a> &gt; Slipstream Tags Deep Dive
@@ -25,6 +26,8 @@
 		<a href="#preface">Preface</a>
 		<a href="#motivations">Motivations</a>
 		<a href="#terminology">Terminology</a>
+		<a href="#basics">Basics</a>
+		<a href="#getting-started">Getting Started</a>
 	</nav>
 	<header>
 		<h1>
@@ -46,12 +49,27 @@
 		<p>
 			Just want to mention that I used the <strong>Advanced XML</strong> section of the readme_modders.txt in Slipstream's directory as the base for this guide, since it does go over the syntax. It's quite dry though as it doesn't have any examples, which is one of the reasons I made this guide. I'll be going it over from scratch so don't worry about reading it.
 		</p>
+		<p>
+			Lastly, want to point out that Slipstream has a sandbox environment in which you can test or practice Slipstream tags.
+			<ul>
+				<li>Patch FTL to the desired modded state.</li>
+				<li>Select <strong>File &rarr; XML Sandbox...</strong></li>
+				<li>Select <strong>Open Main...</strong></li>
+				<li>Select the file you want to test the tags on.</li>
+				<li>Switch to the <strong>Append</strong> tab and write down the tags.</li>
+				<li>When you click <strong>Patch</strong> you'll see the results of the tags.</li>
+				<li>Search using Ctrl+F or typing in the search bar then press Enter.</li>
+				<li>Cycle through the results with F3 to cycle forward and Shift-F3 to cycle backward.</li>
+			</ul>
+		</p>
 	</section>
 	<section id="motivations">
 		<h2>
-			Motivations
+			Motivations... Why use Slipstream tags?
 		</h2>
-		<h3>Compatibility</h3>
+		<h3 id="compatibility">
+			Compatibility
+		</h3>
 		<p>
 			So you've got a weapon mod. It adds a whole bunch of weapons, and as is usually the case, you want to add a bunch of new blue options to give the weapons interesting event applications. The easiest thing to do is create new versions of events and add some blue options. This is fine if you plan on only using this mod, but the problem with replacing events like this is that it doesn't scale well &rarr; you run into some problems when you think about compatibility.
 		</p>
@@ -59,7 +77,7 @@
 			The first order of compatibility comes from the source. Now if you're working with vanilla events, this isn't something to worry about, since vanilla is content-complete. If you're working with an overhaul or overhaul addon or something like that, where the events could get updates in future versions, then you might get problems.
 		</p>
 		<p class="indent">
-			Think about it like this. If you replace the original event, and then the original event gets an update, and your mod is actively preventing a feature update!
+			Think about it like this. If you replace the original event, and then the original event gets an update, your mod is actively preventing a feature update!
 		</p>
 		<p>
 			The second order of compatibility to think about comes from fellow addons. If we both go about this same 'replace the event' method, we may potentially overwrite another mod's changes and then only one of our mods is going to add blue options...
@@ -68,12 +86,16 @@
 		<p>
 			What if instead of replacing the events, we only did the adding of new options? Then we could have mods resilient to update changes and at the same time be compatible with other addons. We can do just that with Slipstream tags.
 		</p>
-		<h3>Possibilities</h3>
+		<h3 id="#possibilities">
+			Possibilities
+		</h3>
 		<p>
-			Slipstream tags can certainly make things less tedious, and tone down how much code is written, while at the same time being more compatible. But what if I told you there are things you can do with them that are just not possible otherwise? Think about this,
+			Slipstream tags can certainly make things less tedious, and tone down how much code is written, while at the same time being more compatible. But what if I told you there are things you can do with them that are just not possible otherwise?
 		</p>
 		<p>
-			So, I'm tired of fire beams not burning everything. I want fire beams to burn every single tile I strike with them. Making a universal thing like this is just not possible with conventional modding. To do it you'd have to find every single mod with a fire beam and create a new one with their fireChance to 10, even people's personal mods, mods with the same name for fire beam but different effects. So yeah, impossible. But this is something we can <em>actually</em> do with Slipstream tags. More on this later.
+			So, I'm tired of fire beams not burning everything. I want every fire beam to burn every single tile I strike with them. Yes, <a href="https://www.youtube.com/watch?v=QJ1koU26aeY" class="easter-egg">burn it all.</a>
+			<br><br>
+			Making a universal thing like this is just not possible with conventional modding. To do it you'd have to find every single mod with a fire beam and create a new one with their fireChance to 10, even people's personal mods, mods with the same name for fire beam but different effects. So yeah, impossible. But this is something we can <em>actually</em> do with Slipstream tags. More on this later.
 		</p>
 	</section>
 	<section id="terminology">
@@ -81,7 +103,7 @@
 			Terminology
 		</h2>
 		<p>
-			So you've seen some of the reasons we'd want to use the tags. But before jumping in, it's important we define some terms to make sure we're all on the same page here. I'll be referencing these keywords. Take a look at this event:
+			So you've seen some of the reasons we'd want to use the tags. But before jumping in, it's important we define some terms to make sure we're all on the same page here. Take a look at this event:
 		</p>
 		<pre>
 			<code>
@@ -90,7 +112,7 @@
 	&lt;choice&gt;
 		&lt;text&gt;Investigate.&lt;/text&gt;
 		&lt;event&gt;
-			&lt;text>There's nothing after all. Bummer.&lt;/text&gt;
+			&lt;text&gt;There's nothing after all. Bummer.&lt;/text&gt;
 		&lt;/event&gt;
 	&lt;/choice&gt;
 &lt;/event&gt;
@@ -99,7 +121,7 @@
 		<ul>
 			<li><strong>Tag</strong>
 				<p>
-					'event', 'text' and 'choice' are <u>tags</u>. You can tell as much by the angled brackets '&lt;' and '&gt;'. &lt;event ...&gt; is concluded by the closing tag &lt;/event&gt;, containing other tags within. Sometimes the tag can be self-closing like so: &lt;event/&gt;.
+					'event', 'text' and 'choice' are <u>tags</u>. You can tell as much by the angled brackets '<code>&lt;</code>' and '<code>&gt;</code>'. <code>&lt;event ...&gt;</code> is concluded by the closing tag <code>&lt;/event&gt;</code>, containing other tags within. Sometimes the tag can be self-closing like so: <code>&lt;event/&gt;</code>.
 				</p>
 			</li>
 			<li><strong>Value</strong>
@@ -121,6 +143,180 @@
 			</li>
 		</ul>
 	</section>
+	<section id="basics">
+		<h2>
+			Basics
+		</h2>
+		<h3>
+			Hold on, what exactly are Slipstream tags?
+		</h3>
+		<p>
+			Slipstream tags are special tags that can target any tags above them. These tags are commands that Slipstream uses to edit existing data defined above these tags. What do I mean by 'above'? Well, at the very least, any data in the file in which the tags are defined. If the file the tags are in is an .append file, they will target content defined further up in the currently patched dat.
+			<br><br>
+			Defined further up in the currently patched dat? What does that mean?
+			<br><br>
+			The way Slipstream works is that it uses the vanilla/unmodded ftl.dat as its base, then each mod that is added contributes content to this dat file. This operation happens one at a time for each mod. For the first mod,
+			<ul>
+				<li>
+					If the file in the mod <u>does not exist</u> within the dat, then add it to the dat.
+					<br>
+					For example, a new ship or weapon image, a new music track, a new events file (requires hyperspace), etc.
+				</li>
+				<br>
+				<li>
+					If the file in the mod <u>already exists</u> in the dat (same name and file extension), then replace the file.
+					<br>
+					For example, mod contains events.xml, will replace existing events.xml, mod contains existing image, will replace it.
+				</li>
+				<br>
+				<li>
+					If the file in the mod <u>ends in the .append extension</u>, as typically with data files in addon mods, there will be a new version of the file in the dat with the contents of the existing file and the contents of the .append added below.
+					<br>
+					For example, mod contains events.xml.append, new events.xml is existing events.xml with new content written inside the file, below the existing data.
+				</li>
+			</ul>
+			When the patching for that mod is done, there is now a new ftl.dat. This is what I mean by the currently patched dat. The process then repeats for the rest of the mods.
+			<br><br>
+			Now picture this. Slipstream has patched two mods each with an events.xml.append file. So, the currently patched dat contains a new events.xml, first of all has the vanilla events.xml, then the changes from these two mods. Slipstream tags in my new mod file's events.xml.append will target this resulting events.xml file, it is the "data defined above" my mod file. Remember that if I added any new regular data to my mod file's events.xml.append they are also potential targets for any Slipstream tags below them.
+			<br><br>
+			To sum up, Slipstream tags are commands used only by Slipstream Mod Manager to edit existing data. They are <u>not</u> loaded into the dat and used by the game. Unlike event file data, which can usually be referenced in other event files, Slipstream tags will only work for the name of the file they are defined in. For instance, tags in events_rebel.xml.append cannot target events.xml data.
+		</p>
+	</section>
+	<section id="getting-started">
+		<h2>
+			Getting started
+		</h2>
+		<h3>
+			So... how do I use them?
+		</h3>
+		<p>
+			The general strategy will be to find some specific data, that is, xml tags. Then change those tags in some way. Maybe add a new choice? Change the event to load a custom event instead? Give all fire beams 100% chance to start a fire? Change some text around? Tell the Zoltans you'd rather blow them to bits instead of peace and steal their Zoltan tech. Okay maybe that one's a little too far. But these are only a few of the possibilities.
+		</p>
+		<p>
+			We'll be finding these xml tags through 'find' tags, and then change the found tag in some way or change its direct children in some way. Again, children tags are the tags directly underneath. These 'find' tags can only find tags one level at a time. What do I mean by that? Well look at our event again:
+		</p>
+		<pre>
+			<code>
+&lt;event name="MY_EVENT"&gt;
+	&lt;text&gt;There seems to be nothing at all at this beacon. Time to move on... except, what's that over there?&lt;/text&gt;
+	&lt;choice&gt;
+		&lt;text&gt;Investigate.&lt;/text&gt;
+		&lt;event&gt;
+			&lt;text&gt;There's nothing after all. Bummer.&lt;/text&gt;
+		&lt;/event&gt;
+	&lt;/choice&gt;
+&lt;/event&gt;
+			</code>
+		</pre>
+		<p>
+			To find the first tag that starts with <code>&lt;event name="MY_EVENT"&gt;</code> we'll use a 'find' tag called findName. It looks like this:
+		</p>
+		<pre>
+			<code>
+&lt;mod:findName name="..." type="..."&gt;
+	&lt;!-- do something! --&gt;
+&lt;/mod:findName&gt;
+			</code>
+		</pre>
+		<p>
+			findName will find the very last tag with the specified name, guaranteeing it's the one FTL will use. type is the name of the tag itself, such as event, or weaponBlueprint. type is optional, so without it will find the last tag with <code>name="..."</code>.
+			<br>
+			However, there are cases where you can have two tags with different tag names, but the same <code>name</code>. This happens in vanilla with an event and the textList that goes with it. So the safer option is to also use <code>type="..."</code>, since you probably know the tag name anyways.
+		</p>
+		<p>
+			If we use this idea for our event, then this
+		</p>
+		<pre>
+			<code>
+&lt;mod:findName name="MY_EVENT" type="event"&gt;
+	&lt;!-- We are here! --&gt;
+&lt;/mod:findName&gt;
+			</code>
+		</pre>
+		<p>
+			puts us here
+		</p>
+		<pre>
+			<code>
+&lt;event name="MY_EVENT"&gt;
+	&lt;!-- We are here! --&gt;
+	&lt;text&gt;There seems to be nothing at all at this beacon. Time to move on... except, what's that over there?&lt;/text&gt;
+	&lt;choice&gt;
+		&lt;text&gt;Investigate.&lt;/text&gt;
+		&lt;event&gt;
+			&lt;text&gt;There's nothing after all. Bummer.&lt;/text&gt;
+		&lt;/event&gt;
+	&lt;/choice&gt;
+&lt;/event&gt;
+			</code>
+		</pre>
+		<p>
+			What can we do now that we're "here"? Well here's a list of commands to affect the tag we just found, which I'll call the <u>context node</u>.
+			<ul>
+				<li><code>&lt;mod:setAttributes a="foo" b="bar" unique="true" /&gt;</code>
+					<p>
+						This gives the context node whatever attributes we give it. For our event it changes its header to:
+						<br>
+						<code>&lt;event name="MY_EVENT" a="foo" b="bar" unique="true"&gt;</code>
+					</p>
+				</li>
+				<li><code>&lt;mod:removeAttributes a="" unique="" /&gt;</code>
+					<p>
+						This removes the specified attributes from the context node whatever attributes we give it. Attribute values are ignored, so just leave them empty. If we did this right after setAttributes, we'd get:
+						<br>
+						<code>&lt;event name="MY_EVENT" b="bar"&gt;</code>
+					</p>
+				</li>
+				<li><code>&lt;mod:setValue&gt;Hello World!&lt;/mod:setValue&gt;</code>
+					<p>
+						This sets the value of the context node to whatever text we write. If the context node has any children, like in this case we've got a 'text' and a 'choice' which has more stuff underneath, it will get rid of it all. If we did this to our original event we'd get something dumb like
+						<br>
+						<code>&lt;event name="MY_EVENT" b="bar"&gt;Hello World!&lt;/event&gt;</code>
+						<br><br>
+						So this isn't the right use case. We need a case where we only want to change the value and nothing else. A good tag for this is 'autoReward'. As a reminder it looks like this,
+						<br>
+						<code>&lt;autoReward level="LOW"&gt;standard&lt;/event&gt;</code>
+						<br>
+						If we got our context tag to be autoReward somehow, we'd use setValue and change the <u>value</u> to scrap_only, for instance. You're probably thinking 'text' is a good candidate for this, but we'll soon see there is a more appropriate tag.
+					</p>
+				</li>
+				<li><code>&lt;mod:removeTag /&gt;</code>
+					<p>
+						This removes the context node entirely. So if we used it on our event it would get rid of it entirely. It's not very applicable in this case since we probably want to just add or change stuff. There will be a better example of how this can be more useful later.
+					</p>
+				</li>
+			</ul>
+		</p>
+		<h4>
+			Adding more a la mod-append
+		</h4>
+		<p>
+			This deserved its own section because I can't really show you what we can do with mod-append only inline. We can use this tag to construct a brand new tag and place it as a new child of our context node. Take a glance back at our event. Now imagine there was another choice for our event like this:
+		</p>
+		<pre>
+			<code>
+&lt;event name="MY_EVENT"&gt;
+	&lt;!-- We are here! --&gt;
+	&lt;text&gt;There seems to be nothing at all at this beacon. Time to move on... except, what's that over there?&lt;/text&gt;
+	&lt;choice&gt;
+		&lt;text&gt;Investigate.&lt;/text&gt;
+		&lt;event&gt;
+			&lt;text&gt;There's nothing after all. Bummer.&lt;/text&gt;
+		&lt;/event&gt;
+	&lt;/choice&gt;
+	&lt;choice hidden="true" req="SUPER_SCANNER"&gt;
+		&lt;text&gt;(Super Scanner) Do a deep scan of the nearby area.&lt;/text&gt;
+		&lt;event&gt;
+			&lt;text&gt;You scan the area thoroughly, and reveal a cloaked escape pod! Inside there is a slug: sigh "The Federation? Of courssse they would be the onesss to ressscue me." The slug doesn't seem all that happy to see you, but they leave the escape pod all the same.&lt;/text&gt;
+			&lt;crewMember class="slug" amount="1" /&gt;
+		&lt;/event&gt;
+	&lt;/choice&gt;
+&lt;/event&gt;
+			</code>
+		</pre>
+
+
+	</section>
 	<section>
 		<h2>Code Test</h2>
 		<p>
@@ -135,6 +331,8 @@
 			</code>
 		</pre>
 	</section>
+
+	<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script> -->
 
 	<script src="../scripts/trim-codeblocks.js"></script> 
 </body>
