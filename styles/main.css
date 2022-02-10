@@ -19,10 +19,13 @@ header, h2 {
 	font-family: Arial;
 }
 p, ul > li {
-	line-height: 1.33;
+	line-height: 1.5;
 }
 p.indent {
 	padding-left: 25px;
+}
+p.indentmore {
+	padding-left: 50px;
 }
 .home, hr {
 	border-bottom: 1px solid black;
